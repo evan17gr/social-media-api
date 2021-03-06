@@ -9,15 +9,16 @@ use Illuminate\Support\Facades\Mail;
 
 class EmailVerificationController extends Controller
 {
-   public function verify($user_id, Request $request){
+   public function verify( Request $request){
        if(!$request->hasValidSignature()){
            return response()->json(["msg" => "Expired url"]);
        }
 
-       $user = User::findOrFail($user_id);
+       $user = User::where($request->input("token") ,"verification_token");
 
-       if(!$user->hasVerifiedEmail()){
+       if($user){
            $user->markEmailAsVerified();
+           $user->email_verified_at = now();
            return response()->json(["msg" => "Email has been verified"]);
        }
 
@@ -26,7 +27,7 @@ class EmailVerificationController extends Controller
 
    public static function sendVerificationEmail($email,$username,$verificationToken){
        $userInfo = [
-           "email" => $email,
+           "username" => $username,
            "verification_token" => $verificationToken,
        ];
        Mail::to($email)->send(new VerifyEmail($userInfo));

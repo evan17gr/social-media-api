@@ -28,6 +28,6 @@ class VerifyEmail extends Mailable
      */
     public function build()
     {
-        return $this->from(env("MAIL_USERNAME"))->subject("Welcome to this site")->view('emailverification',["emqail_data" => $this->email_data]);
+        return $this->subject("Verify your email")->view('mail.emailverification',$this->email_data);
     }
 }

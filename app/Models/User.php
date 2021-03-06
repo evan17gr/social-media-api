@@ -22,6 +22,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        "username",
+        "verification_token"
     ];
 
     /**
@@ -43,8 +45,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function hashPassword($password){
-        Hash::make($password);
+    public static function hashPassword($password){
+        $hashedPassword = Hash::make($password);
+        return $hashedPassword;
     }
 
 
