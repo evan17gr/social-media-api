@@ -15,5 +15,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::post("users/signup", "App\Http\Controllers\Users@signup");
 Route::post("users/email/verify", "App\Http\Controllers\EmailVerificationController@verify");
-Route::get("users/email/resend", "App\Http\Controllers\EmailVerificationController@resend");
+Route::post("users/email/resend", "App\Http\Controllers\EmailVerificationController@resendEmail");
 

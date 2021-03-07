@@ -19,11 +19,13 @@ class Users extends Controller
 
         $hashedPassword = User::hashPassword($data["password"]);
         $verificationToken = sha1(time());
+        $verificationTokenIssued = now();
         $user = [
             "username" => $data["username"],
             "email" => $data["email"],
             "password" => $hashedPassword,
             "verification_token" => $verificationToken,
+            "verification_token_issued_at" => $verificationTokenIssued,
         ];
         
         User::create($user);
