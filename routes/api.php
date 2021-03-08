@@ -17,3 +17,18 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group([
+
+    'middleware' => 'api',
+
+], function ($router) {
+
+
+});
+
+Route::post("users/signup", "App\Http\Controllers\Users@signup");
+Route::post("users/login", "App\Http\Controllers\Users@login");
+
+Route::post("users/email/verify", "App\Http\Controllers\EmailVerificationController@verify");
+Route::post("users/email/resend", "App\Http\Controllers\EmailVerificationController@resendEmail");

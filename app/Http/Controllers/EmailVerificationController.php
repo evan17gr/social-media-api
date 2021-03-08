@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Mail;
 
 class EmailVerificationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['verify', 'resendEmail']]);
+    }
+
    public function verify( Request $request){
        $user = User::where("verification_token",$request->input("token"))->first();
 
