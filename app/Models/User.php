@@ -52,6 +52,4 @@ class User extends Authenticatable implements MustVerifyEmail
         $hashedPassword = Hash::make($password);
         return $hashedPassword;
     }
-
-
 }

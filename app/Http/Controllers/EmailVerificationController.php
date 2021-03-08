@@ -36,7 +36,7 @@ class EmailVerificationController extends Controller
    public function resendEmail(Request $request){
         $user = User::where("verification_token",$request->input("token"))->first();
 
-        $verificationToken = sha1(time());
+        $verificationToken = sha1(random_bytes(32));
         $user->verification_token = $verificationToken;
         $user->verification_token_issued_at = now();
         $user->save();

@@ -18,7 +18,7 @@ class Users extends Controller
         ]);
 
         $hashedPassword = User::hashPassword($data["password"]);
-        $verificationToken = sha1(time());
+        $verificationToken = sha1(random_bytes(32));
         $verificationTokenIssued = now();
         $user = [
             "username" => $data["username"],
@@ -33,5 +33,16 @@ class Users extends Controller
         EmailVerificationController::sendVerificationEmail($user["email"],$user["username"],$verificationToken);
         return response()->json(["msg" => "Account was created, and a verification email has been sent to your email."]);
         
+    }
+
+    public function login(Request $request){
+        $user = User::where("email",$request->email)->first();
+        if($user->is_verified != true){
+            return response()->json(["msg" => "Please verify your email, before trying to login"]);
+        }
+        $credentials = $request->only("email","password");
+        if(Auth::attempt($credentials)){
+            return response()->json(["status" => "success"]);
+        }
     }
 }
